@@ -39,7 +39,7 @@ This project helped me:
 
  🚀 Live Demo
 
-Coming soon ...
+[Click here](https://minooshvejdani.github.io/Virtual-pet-project/)
 
 ---
 
