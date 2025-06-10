@@ -37,7 +37,7 @@ class Pet {
       "sad",
       "hungry",
       "dead",
-    ]
+    ];
 
     this.stateVideos = {
       main: "./animations/main.mp4",
@@ -62,7 +62,6 @@ class Pet {
       dead: "mainSound",
     };
 
-
     this.source = document.querySelector("source");
     this.source.src = this.stateVideos[this.state]; // Set the initial video source
     this.source.type = "video/mp4"; // Set the video type
@@ -75,29 +74,35 @@ class Pet {
       "eating->sad": () => this.isVideoPlayingFinished && this.happiness < 2,
       "sad->sleeping": () => this.isVideoPlayingFinished,
       "sleeping->sad": () => this.isVideoPlayingFinished && this.happiness < 2,
-      "sad->main": () => this.isVideoPlayingFinished && this.hunger < 8 && this.happiness > 2,
+      "sad->main": () =>
+        this.isVideoPlayingFinished && this.hunger < 8 && this.happiness > 2,
       "main->sad": () => this.happiness < 2,
       "sad->dead": () => this.happiness === 0 && this.isVideoPlayingFinished,
       "playing->eating": () => this.isVideoPlayingFinished && this.hunger !== 0,
       "playing->sleeping": () => this.isVideoPlayingFinished,
-      "sleeping->playing": () => this.isVideoPlayingFinished && this.happiness !== 10,
-      "playing->main": () => this.isVideoPlayingFinished && this.happiness >= 2 && this.hunger < 8,
+      "sleeping->playing": () =>
+        this.isVideoPlayingFinished && this.happiness !== 10,
+      "playing->main": () =>
+        this.isVideoPlayingFinished && this.happiness >= 2 && this.hunger < 8,
       "main->playing": () => this.happiness !== 10,
       "playing->hungry": () => this.isVideoPlayingFinished && this.hunger > 8,
       "eating->sleeping": () => this.isVideoPlayingFinished,
-      "sleeping->eating": () => this.isVideoPlayingFinished &&  this.hunger !== 0,
-      "eating->main": () => this.isVideoPlayingFinished && this.hunger < 8 && this.happiness > 2,
+      "sleeping->eating": () =>
+        this.isVideoPlayingFinished && this.hunger !== 0,
+      "eating->main": () =>
+        this.isVideoPlayingFinished && this.hunger < 8 && this.happiness > 2,
       "main->eating": () => this.hunger !== 0,
       "eating->hungry": () => this.isVideoPlayingFinished && this.hunger > 8,
       "hungry->eating": () => true,
-      "sleeping->main": () => this.isVideoPlayingFinished && this.hunger < 8 && this.happiness > 2,
+      "sleeping->main": () =>
+        this.isVideoPlayingFinished && this.hunger < 8 && this.happiness > 2,
       "main->sleeping": () => true,
       "sleeping->hungry": () => this.isVideoPlayingFinished && this.hunger > 8,
       "hungry->sleeping": () => true,
       "main->hungry": () => this.hunger > 8,
       "hungry->main": () => this.hunger < 8 && this.happiness > 2,
       "hungry->dead": () => this.hunger === 10 && this.isVideoPlayingFinished,
-    }
+    };
 
     feedButton.addEventListener("click", () => {
       if (this.state === "dead") {
@@ -124,46 +129,50 @@ class Pet {
     });
 
     video.addEventListener("ended", () => {
-      this.isVideoPlayingFinished = true;  
+      this.isVideoPlayingFinished = true;
     });
 
     this.loadPetState();
   }
 
   transitionToNewState(newState) {
-    if (this.stateTransitionsCondition[`${this.state}->${newState}`] && this.stateTransitionsCondition[`${this.state}->${newState}`]()) {
+    if (
+      this.stateTransitionsCondition[`${this.state}->${newState}`] &&
+      this.stateTransitionsCondition[`${this.state}->${newState}`]()
+    ) {
       this.state = newState;
       this.updateStateUI(this.state);
       return true;
     } else {
       // console.log(`Cannot transition from ${this.state} to ${newState}`);
-    
+
       return false;
     }
   }
 
-  updateHappinessAndHunger(
-    happinessIncrement = 0,
-    hungerIncrement = 0,
-  ) {
-    this.happiness = Math.max(0, Math.min(10, this.happiness + happinessIncrement));
+  updateHappinessAndHunger(happinessIncrement = 0, hungerIncrement = 0) {
+    this.happiness = Math.max(
+      0,
+      Math.min(10, this.happiness + happinessIncrement)
+    );
     this.hunger = Math.max(0, Math.min(10, this.hunger + hungerIncrement));
-    
-    this.updateUI()
+
+    this.updateUI();
     if (this.state === "dead") {
       clearInterval(this.intervalId);
       this.intervalId = null;
-    } 
+    }
     this.savePetState();
   }
 
   updateUI() {
     hungerBarFill.style.width = (10 - this.hunger) * 10 + "%";
     happinessBarFill.style.width = this.happiness * 10 + "%";
-    if(this.state === "dead") {
+    if (this.state === "dead") {
       gameButtonsContainer.style.display = "none";
       adoptContainer.style.display = "flex";
-    } if (this.state === "adopted") {
+    }
+    if (this.state === "adopted") {
       gameButtonsContainer.style.display = "flex";
       adoptContainer.style.display = "none";
       this.state = "main";
@@ -184,9 +193,9 @@ class Pet {
 
   live() {
     const possibleStates = ["main", "sad", "hungry", "dead"];
-    this.updateHappinessAndHunger(-1/this.lifeSpan, 1/this.lifeSpan);
+    this.updateHappinessAndHunger(-1 / this.lifeSpan, 1 / this.lifeSpan);
     for (const state of possibleStates) {
-      if(this.transitionToNewState(state)){
+      if (this.transitionToNewState(state)) {
         break;
       }
     }
@@ -194,24 +203,35 @@ class Pet {
   }
 
   feed() {
-    if (this.state !== "eating" && this.state !== "playing" && this.state !== "sleeping") {
+    if (
+      this.state !== "eating" &&
+      this.state !== "playing" &&
+      this.state !== "sleeping"
+    ) {
       this.updateHappinessAndHunger(0, -1, "eating");
       this.transitionToNewState("eating");
-    }
-  else return;
+    } else return;
   }
 
   play() {
-    if (this.state !== "eating" && this.state !== "playing" && this.state !== "sleeping") {
-    this.updateHappinessAndHunger(1, 0, "playing");
-    this.transitionToNewState("playing");
+    if (
+      this.state !== "eating" &&
+      this.state !== "playing" &&
+      this.state !== "sleeping"
+    ) {
+      this.updateHappinessAndHunger(1, 0, "playing");
+      this.transitionToNewState("playing");
     }
   }
 
   sleep() {
-    if (this.state !== "eating" && this.state !== "playing" && this.state !== "sleeping") {
-    this.updateHappinessAndHunger(1, 0, "sleeping");
-    this.transitionToNewState("sleeping");
+    if (
+      this.state !== "eating" &&
+      this.state !== "playing" &&
+      this.state !== "sleeping"
+    ) {
+      this.updateHappinessAndHunger(1, 0, "sleeping");
+      this.transitionToNewState("sleeping");
     }
   }
 
@@ -223,7 +243,7 @@ class Pet {
       video.loop = state === "main";
       video.load();
       video.play();
-      this.isVideoPlayingFinished = false; // Reset the flag when a new video starts
+      this.isVideoPlayingFinished = false;
     } else {
       console.log("Unknown state:", state);
     }
@@ -345,7 +365,6 @@ class GameManager {
   constructor(pet) {
     this.pet = pet;
     this.intervalId = null;
-    // this.isResumed = false;
     this.gameStarted = true;
 
     adoptPet.addEventListener("click", () => {
@@ -365,7 +384,7 @@ class GameManager {
     this.pet.savePetState();
   }
 
-  updateLife(){
+  updateLife() {
     if (this.gameStarted) {
       this.gameStarted = false;
     } else {
@@ -374,10 +393,5 @@ class GameManager {
   }
 }
 
-
-
-
 const myPet = new Pet("Fluffy");
 const gameManager = new GameManager(myPet);
-// const intervalId = setInterval(() => gameManager.live(), 8000);
-// myPet.setIntervalId(intervalId);
