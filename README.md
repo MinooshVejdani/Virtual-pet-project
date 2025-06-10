@@ -45,7 +45,7 @@ Coming soon ...
 
  🔗 Links
 
-- [Source Code on GitHub]
+- [Source Code on GitHub] https://github.com/MinooshVejdani/Virtual-pet-project.git 
 - [Portfolio Website] coming soon...
 
 ---
