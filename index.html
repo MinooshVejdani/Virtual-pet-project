@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>My Cute Pet 🐶</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header>
+      <h2>My Cute Pet</h2>
+    </header>
+
+    <main>
+      <div class="container">
+        <div class="pet-container">
+          <!-- <img src="image.jpg" class="image" alt="the image of my pet" /> -->
+          <div class="screen-frame">
+            <div class="thought-bubble" id="thoughtBubble">
+              I'd like to be your pet!
+            </div>
+
+            <div class="video-container">
+              <video id="petVideo" autoplay loop muted playsinline>
+                <source src="./animations/main.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+              <img src="grave.jpg" class="grave" alt="the pet's grave." />
+            </div>
+          </div>
+
+          <div class="control-panel">
+            <div class="adopt-container">
+              <div class="status-bar"></div>
+              <div><button class="btn start">Adopt A Pet!</button></div>
+            </div>
+
+            <div class="game-buttons-container">
+              <div class="gauge gauge-hunger" data-ref="hunger">
+                <div class="gauge-value"></div>
+                <div class="gauge-inner">
+                  <div class="gauge-fill"></div>
+                </div>
+              </div>
+
+              <div class="gauge gauge-happiness" data-ref="happiness">
+                <div class="gauge-value"></div>
+                <div class="gauge-inner">
+                  <div class="gauge-fill"></div>
+                </div>
+              </div>
+
+              <div class="buttons">
+                <audio id="feedSound" src="eating-dog-trimed.wav"></audio>
+                <button class="btn btn-feed">Feed</button>
+                <audio id="barkSound" src="dog-bark.mp3"></audio>
+                <button class="btn play">Play</button>
+                <audio id="sleepSound" src="dog-sleeping.mp3"></audio>
+                <button class="btn sleep">Sleep</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
