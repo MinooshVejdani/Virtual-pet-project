@@ -302,17 +302,8 @@ class Pet {
       case "weeping":
         thoughtBubble.textContent = "I am so sad! :(";
         break;
-      case "feedingFull":
-        thoughtBubble.textContent = "I am full!!!";
-        break;
-      case "sleepingFull":
-        thoughtBubble.textContent = "I sleep well when I am full!💤";
-        break;
-      case "sleepingHappy":
-        thoughtBubble.textContent = "I sleep well when I am happy! 💤";
-        break;
-      case "playingHappy":
-        thoughtBubble.textContent = "I cannot be happier!!!";
+      case "dead":
+        thoughtBubble.textContent = "Goodbye, friend... ";
         break;
       default:
         thoughtBubble.textContent = "";
@@ -342,13 +333,16 @@ class Pet {
         statusBar.style.color = "black";
         break;
       case "sad":
+        statusBar.textContent = "I feel so sad! 😭";
+        statusBar.style.color = "black";
+      break;
       case "hungry":
-        statusBar.textContent = "";
+        statusBar.textContent = "I am starving! 😔";
         statusBar.style.color = "black";
         break;
       case "dead":
-        statusBar.textContent = "Your pet has passed away. 😔 ";
-        statusBar.style.color = "black";
+        statusBar.textContent = "Your pet has passed away! 🪦";
+        statusBar.style.color = "rgb(66, 66, 66)";
         break;
       default:
         statusBar.textContent = "";

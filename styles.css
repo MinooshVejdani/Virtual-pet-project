@@ -4,7 +4,6 @@
   box-sizing: border-box;
 }
 
-
   h2 {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-size: 20px;
@@ -32,10 +31,9 @@
   
   .pet-container {
     position: relative;
-    display: inline-block;
-   display: flex;
-   justify-content: center;
-   align-items: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     min-width: 350px;
     padding: 10px 10px;
     border-radius: 20px;
@@ -65,15 +63,16 @@
 
   .status-bar {
     width: 90%;
-    height: 100%;
-    border: 1px solid rgb(94, 84, 70);
+    height: 40px;
+    border: 1px solid rgb(164, 164, 164);
     border-radius: 10px;
-    background-color: rgb(237, 217, 183);
-    color: black;
-    font-size: 14px;
+    background-color:#e8e4e4; 
+    color: rgb(38, 38, 38);
+    font-size: 13px;
     font-family:Verdana, Geneva, Tahoma, sans-serif;
+    display: flex;
     align-items: center;
-    padding: 12px;
+    justify-content: center;
   }
 
   .grave {
@@ -93,8 +92,8 @@
 
   .thought-bubble {
     position: absolute;
-    top: 6%;         
-    left: 69.6%;  
+    top: 6.3%;         
+    left: 69.81%;  
     width: 150px;  
     min-height: 60px; 
     color: darkslategray;
@@ -108,7 +107,7 @@
     z-index: 10;
   }
   
-  .thought-bubble::after {
+  .thought-bubble::before {
     content: '';
     position: absolute;
     bottom: -10px;
@@ -124,6 +123,19 @@
     margin-bottom: -2px;
   }
 
+  .thought-bubble::after {
+    content: '';
+    position: absolute;
+    top: 5%;
+    right: 8px;
+    width: 70px;
+    height: 10%;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 10px;
+    pointer-events: none;
+    z-index: 13;
+  }
+
   .image {
     width: 50px;
     height: auto;
@@ -131,23 +143,15 @@
     padding-bottom: 20px;
   }
 
-  /* .status-info {
-    width: 400px;
-    height: 50px;
-    justify-content: center;
-    align-items: center;
-    display: flex;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    font-size: 12px;
-  } */
-
   .control-panel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border-radius: 20px;
     background-color: rgb(210, 209, 209);
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     width: 440px;
     height: 240px;
-    padding: 15px 0;
   }
 
   .game-buttons-container {
