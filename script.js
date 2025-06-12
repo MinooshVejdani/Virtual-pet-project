@@ -27,7 +27,7 @@ class Pet {
     this.name = name;
     this.hunger = 0;
     this.happiness = 10;
-    this.lifeSpan = 50;
+    this.lifeSpan = 20;
     this.state = "main";
     this.states = [
       "main",
@@ -40,6 +40,7 @@ class Pet {
     ];
 
     this.stateVideos = {
+      adopted: "./animations/main.mp4",
       main: "./animations/main.mp4",
       eating: "./animations/eating.mp4",
       sleeping: "./animations/sleeping.mp4",
@@ -55,10 +56,6 @@ class Pet {
       playing: "barkSound",
       sad: "weepingSound",
       hungry: "weepingSound",
-      feedingFull: "mainSound",
-      sleepingFull: "mainSound",
-      sleepingHappy: "mainSound",
-      playingHappy: "mainSound",
       dead: "mainSound",
     };
 
@@ -68,16 +65,16 @@ class Pet {
     this.isVideoPlayingFinished = true;
 
     this.stateTransitionsCondition = {
-      "sad->playing": () => this.isVideoPlayingFinished,
+      "sad->playing": () => true,
       "playing->sad": () => this.isVideoPlayingFinished && this.happiness < 2,
-      "sad->eating": () => this.isVideoPlayingFinished,
+      "sad->eating": () => true,
       "eating->sad": () => this.isVideoPlayingFinished && this.happiness < 2,
-      "sad->sleeping": () => this.isVideoPlayingFinished,
+      "sad->sleeping": () => true,
       "sleeping->sad": () => this.isVideoPlayingFinished && this.happiness < 2,
       "sad->main": () =>
-        this.isVideoPlayingFinished && this.hunger < 8 && this.happiness > 2,
+         this.hunger < 8 && this.happiness > 2,
       "main->sad": () => this.happiness < 2,
-      "sad->dead": () => this.happiness === 0 && this.isVideoPlayingFinished,
+      "sad->dead": () => this.happiness === 0,
       "playing->eating": () => this.isVideoPlayingFinished && this.hunger !== 0,
       "playing->sleeping": () => this.isVideoPlayingFinished,
       "sleeping->playing": () =>
@@ -92,7 +89,7 @@ class Pet {
       "eating->main": () =>
         this.isVideoPlayingFinished && this.hunger < 8 && this.happiness > 2,
       "main->eating": () => this.hunger !== 0,
-      "eating->hungry": () => this.isVideoPlayingFinished && this.hunger > 8,
+      "eating->hungry": () => this.hunger > 8,
       "hungry->eating": () => true,
       "sleeping->main": () =>
         this.isVideoPlayingFinished && this.hunger < 8 && this.happiness > 2,
@@ -101,7 +98,7 @@ class Pet {
       "hungry->sleeping": () => true,
       "main->hungry": () => this.hunger > 8,
       "hungry->main": () => this.hunger < 8 && this.happiness > 2,
-      "hungry->dead": () => this.hunger === 10 && this.isVideoPlayingFinished,
+      "hungry->dead": () => this.hunger === 10,
     };
 
     feedButton.addEventListener("click", () => {
@@ -131,7 +128,6 @@ class Pet {
     video.addEventListener("ended", () => {
       this.isVideoPlayingFinished = true;
     });
-
     this.loadPetState();
   }
 
@@ -145,7 +141,6 @@ class Pet {
       return true;
     } else {
       // console.log(`Cannot transition from ${this.state} to ${newState}`);
-
       return false;
     }
   }
@@ -171,12 +166,16 @@ class Pet {
     if (this.state === "dead") {
       gameButtonsContainer.style.display = "none";
       adoptContainer.style.display = "flex";
+      video.style.display = "none";
+      graveImage.style.display = 'block';
     }
+
+    /////////////////not calling!!!!!!!!!!!!
     if (this.state === "adopted") {
+      console.log("updateUI is working with adopted state");
       gameButtonsContainer.style.display = "flex";
       adoptContainer.style.display = "none";
       this.state = "main";
-      this.playStateVideo(this.state);
     }
   }
 
@@ -240,7 +239,7 @@ class Pet {
     if (videoFile) {
       video.currentTime = 0;
       this.source.src = videoFile;
-      video.loop = state === "main";
+      video.loop = state === "main" || state === "sad" || state === "hungry";
       video.load();
       video.play();
       this.isVideoPlayingFinished = false;
@@ -299,8 +298,14 @@ class Pet {
       case "playing":
         thoughtBubble.textContent = "I love playing with you! 🐾";
         break;
-      case "weeping":
-        thoughtBubble.textContent = "I am so sad! :(";
+      case "adopted":
+        thoughtBubble.textContent = "I am your happy pet! 🐶";
+        break;
+      case "sad":
+        thoughtBubble.textContent = "I am so sad! 😭";
+        break;
+      case "hungry":
+        thoughtBubble.textContent = "I am so hungry! 😭";
         break;
       case "dead":
         thoughtBubble.textContent = "Goodbye, friend... ";
@@ -313,11 +318,11 @@ class Pet {
   updateStatusBar(state) {
     switch (state) {
       case "adopted":
-        statusBar.textContent = "You adopted a pet called Fluffy!";
+        statusBar.textContent = "";
         statusBar.style.color = "black";
         break;
       case "main":
-        statusBar.textContent = "";
+        statusBar.textContent = "Would you like to adopt this dog?";
         statusBar.style.color = "black";
         break;
       case "eating":
@@ -333,11 +338,11 @@ class Pet {
         statusBar.style.color = "black";
         break;
       case "sad":
-        statusBar.textContent = "I feel so sad! 😭";
+        statusBar.textContent = "";
         statusBar.style.color = "black";
-      break;
+        break;
       case "hungry":
-        statusBar.textContent = "I am starving! 😔";
+        statusBar.textContent = "";
         statusBar.style.color = "black";
         break;
       case "dead":
@@ -362,7 +367,6 @@ class GameManager {
     this.gameStarted = true;
 
     adoptPet.addEventListener("click", () => {
-      this.pet.updateStatusBar("adopted");
       this.resetGame();
     });
   }
@@ -372,8 +376,11 @@ class GameManager {
     this.pet.state = "adopted";
     this.pet.hunger = 0;
     this.pet.happiness = 10;
-    this.pet.updateUI("adopted");
-    const intervalId = setInterval(() => gameManager.updateLife(), 200);
+    this.pet.updateUI();
+    graveImage.style.display = "none";
+    video.style.display = "block";
+    this.pet.updateStateUI("main");
+    const intervalId = setInterval(() => this.updateLife(), 200);
     this.pet.setIntervalId(intervalId);
     this.pet.savePetState();
   }
