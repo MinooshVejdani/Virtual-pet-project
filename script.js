@@ -170,7 +170,6 @@ class Pet {
       graveImage.style.display = 'block';
     }
 
-    /////////////////not calling!!!!!!!!!!!!
     if (this.state === "adopted") {
       console.log("updateUI is working with adopted state");
       gameButtonsContainer.style.display = "flex";
