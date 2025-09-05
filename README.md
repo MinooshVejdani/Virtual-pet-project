@@ -50,7 +50,6 @@ This project helped me:
 
 ---
 
-
 📄 License
 
 Free to use and modify for learning purposes.
