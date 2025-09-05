@@ -1,3 +1,4 @@
+let weepingSound;
 const feedButton = document.querySelector(".btn-feed");
 const playButton = document.querySelector(".play");
 const sleepButton = document.querySelector(".sleep");
@@ -7,6 +8,7 @@ const statusBar = document.querySelector(".status-bar");
 const petImage = document.querySelector(".image");
 const graveImage = document.querySelector(".grave");
 const video = document.getElementById("petVideo");
+
 
 const hungerBarFill = document.querySelector('[data-ref="hunger"] .gauge-fill');
 const hungerBarValue = document.querySelector(
@@ -252,6 +254,7 @@ class Pet {
     if (soundId) {
       const sound = document.getElementById(soundId);
       if (sound) {
+        console.log(soundId);
         sound.currentTime = 0; // rewind to start
         sound.play();
       } else {
@@ -367,6 +370,10 @@ class GameManager {
 
     adoptPet.addEventListener("click", () => {
       this.resetGame();
+
+      weepingSound = new Audio("weeping.mp3");
+      weepingSound.preload = "auto";
+
     });
   }
 

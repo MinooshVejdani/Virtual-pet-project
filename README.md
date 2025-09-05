@@ -50,11 +50,6 @@ This project helped me:
 
 ---
 
- 🙋‍♀️ About Me
-
-Hi! I’m Minoosh, an aspiring front-end developer focused on building interactive web apps using JavaScript, HTML, and CSS. This is one of my first bigger projects, and I'm excited to keep learning and improving.
-
----
 
 📄 License
 
