@@ -48,15 +48,5 @@ This project helped me:
 - [Source Code on GitHub] https://github.com/MinooshVejdani/Virtual-pet-project.git 
 - [Portfolio Website] coming soon...
 
----
 
-📄 License
-
-MIT License
-
-Copyright (c) 2025 Your Name
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction...
 
