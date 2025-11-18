@@ -193,7 +193,7 @@ class Pet {
 
   live() {
     const possibleStates = ["main", "sad", "hungry", "dead"];
-    this.updateHappinessAndHunger(-1 / this.lifeSpan, 1 / this.lifeSpan);
+    this.updateHappinessAndHunger(-0.1 / this.lifeSpan, 0.2 / this.lifeSpan);
     for (const state of possibleStates) {
       if (this.transitionToNewState(state)) {
         break;
@@ -202,38 +202,45 @@ class Pet {
     console.log(this.state);
   }
 
+
   feed() {
-    if (
-      this.state !== "eating" &&
-      this.state !== "playing" &&
-      this.state !== "sleeping"
-    ) {
-      this.updateHappinessAndHunger(0, -1, "eating");
-      this.transitionToNewState("eating");
-    } else return;
-  }
+  if (this.state === "dead") return;
 
-  play() {
-    if (
-      this.state !== "eating" &&
-      this.state !== "playing" &&
-      this.state !== "sleeping"
-    ) {
-      this.updateHappinessAndHunger(1, 0, "playing");
-      this.transitionToNewState("playing");
-    }
-  }
+  // User actions should ALWAYS trigger animation
+  this.isVideoPlayingFinished = true;
 
-  sleep() {
-    if (
-      this.state !== "eating" &&
-      this.state !== "playing" &&
-      this.state !== "sleeping"
-    ) {
-      this.updateHappinessAndHunger(1, 0, "sleeping");
-      this.transitionToNewState("sleeping");
-    }
-  }
+  this.updateHappinessAndHunger(0, -1);
+
+  // Force the state (ignore transition rules)
+  this.state = "eating";
+  this.updateStateUI("eating");
+}
+
+play() {
+  if (this.state === "dead") return;
+
+  this.isVideoPlayingFinished = true;
+
+  this.updateHappinessAndHunger(1, 0);
+
+  this.state = "playing";
+  this.updateStateUI("playing");
+}
+  
+
+
+sleep() {
+  if (this.state === "dead") return;
+
+  this.isVideoPlayingFinished = true;
+
+  this.updateHappinessAndHunger(0, 0);
+
+  this.state = "sleeping";
+  this.updateStateUI("sleeping");
+}
+
+
 
   playStateVideo(state) {
     const videoFile = this.stateVideos[state];
